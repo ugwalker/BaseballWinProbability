@@ -8,440 +8,303 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
 <style>
   :root {
-    --bay-blue: #003087;
+    --bay-blue:       #003087;
     --bay-light-blue: #005BAC;
-    --bay-navy: #001a4d;
-    --bay-sky: #4db8ff;
-    --bay-white: #ffffff;
-    --bay-off-white: #f0f5ff;
-    --bay-accent: #e8b000;
-    --danger-red: #cc1a1a;
+    --bay-navy:       #001a4d;
+    --bay-sky:        #4db8ff;
+    --bay-white:      #ffffff;
+    --bay-off-white:  #f0f5ff;
+    --diff-green:     #1a8a3a;
+    --diff-green-bg:  #e6f5eb;
+    --diff-green-sel: #16762f;
+    --diff-red:       #cc1a1a;
+    --diff-red-bg:    #fdeaea;
+    --diff-red-sel:   #a81414;
   }
 
   * { box-sizing: border-box; }
 
   body {
     font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     min-height: 100vh;
     transition: background 0.3s, color 0.3s;
   }
 
-  /* ===== HOME MODE ===== */
-  body.home-mode {
-    background: var(--bay-off-white);
-    color: var(--bay-navy);
-  }
+  /* ===== HOME MODE: white bg, blue text ===== */
+  body.home-mode { background: #ffffff; color: var(--bay-navy); }
   .home-mode .app-header {
     background: linear-gradient(135deg, var(--bay-blue) 0%, var(--bay-light-blue) 100%);
     color: var(--bay-white);
   }
-  .home-mode .tab-btn.active {
-    background: var(--bay-blue);
-    color: var(--bay-white);
-    border-color: var(--bay-blue);
-  }
-  .home-mode .tab-btn:not(.active) {
-    background: var(--bay-white);
-    color: var(--bay-blue);
-    border-color: var(--bay-blue);
-  }
-  .home-mode .card-panel {
-    background: var(--bay-white);
-    border: 1.5px solid #c5d8f0;
-    border-radius: 12px;
-  }
-  .home-mode .select-control {
-    background: var(--bay-white);
-    color: var(--bay-navy);
-    border: 1.5px solid var(--bay-light-blue);
-  }
-  .home-mode .win-rate-display {
-    background: linear-gradient(135deg, var(--bay-blue), var(--bay-light-blue));
-    color: var(--bay-white);
-  }
-  .home-mode .win-rate-number {
-    color: var(--bay-white);
-    text-shadow: 0 2px 8px rgba(0,0,48,0.3);
-  }
-  .home-mode .label-text { color: var(--bay-light-blue); font-weight: 600; }
-  .home-mode .footer-text { color: #7a9cc0; }
-  .home-mode .badge-label {
-    background: var(--bay-off-white);
-    color: var(--bay-blue);
-    border: 1px solid #c5d8f0;
-  }
+  .home-mode .tab-btn.active   { background: var(--bay-blue); color: var(--bay-white); border-color: var(--bay-blue); }
+  .home-mode .tab-btn:not(.active) { background: var(--bay-white); color: var(--bay-blue); border-color: var(--bay-blue); }
+  .home-mode .card-panel       { background: var(--bay-white); border: 1.5px solid #c5d8f0; }
+  .home-mode .select-control   { background: var(--bay-white); color: var(--bay-navy); border: 1.5px solid var(--bay-light-blue); }
+  .home-mode .win-rate-display { background: linear-gradient(135deg, var(--bay-blue), var(--bay-light-blue)); color: var(--bay-white); }
+  .home-mode .win-rate-number  { color: var(--bay-white); text-shadow: 0 2px 8px rgba(0,0,48,.3); }
+  .home-mode .badge-label      { background: var(--bay-off-white); color: var(--bay-blue); border: 1px solid #c5d8f0; }
+  .home-mode .footer-text      { color: #7a9cc0; }
+  .home-mode .status-chip      { background: var(--bay-off-white); border: 1px solid #c5d8f0; color: var(--bay-navy); }
 
-  /* ===== AWAY MODE ===== */
-  body.away-mode {
-    background: #061428;
-    color: var(--bay-white);
-  }
+  /* ===== AWAY MODE: navy bg, white text ===== */
+  body.away-mode { background: var(--bay-navy); color: var(--bay-white); }
   .away-mode .app-header {
-    background: linear-gradient(135deg, #001a4d 0%, #003087 100%);
+    background: linear-gradient(135deg, #000e2e 0%, #002060 100%);
     color: var(--bay-white);
     border-bottom: 2px solid var(--bay-sky);
   }
-  .away-mode .tab-btn.active {
-    background: var(--bay-sky);
-    color: var(--bay-navy);
-    border-color: var(--bay-sky);
-  }
-  .away-mode .tab-btn:not(.active) {
-    background: transparent;
-    color: var(--bay-sky);
-    border-color: var(--bay-sky);
-  }
-  .away-mode .card-panel {
-    background: rgba(0, 48, 135, 0.25);
-    border: 1.5px solid rgba(77, 184, 255, 0.3);
-    border-radius: 12px;
-  }
-  .away-mode .select-control {
-    background: rgba(0, 26, 77, 0.8);
-    color: var(--bay-white);
-    border: 1.5px solid var(--bay-sky);
-  }
-  .away-mode .select-control option {
-    background: #061428;
-    color: var(--bay-white);
-  }
-  .away-mode .win-rate-display {
-    background: linear-gradient(135deg, #001a4d, #003087);
-    border: 2px solid var(--bay-sky);
-    color: var(--bay-white);
-  }
-  .away-mode .win-rate-number {
-    color: var(--bay-sky);
-    text-shadow: 0 0 20px rgba(77,184,255,0.5);
-  }
-  .away-mode .label-text { color: var(--bay-sky); font-weight: 600; }
-  .away-mode .footer-text { color: rgba(77,184,255,0.5); }
-  .away-mode .badge-label {
-    background: rgba(77,184,255,0.15);
-    color: var(--bay-sky);
-    border: 1px solid rgba(77,184,255,0.3);
-  }
+  .away-mode .tab-btn.active   { background: var(--bay-sky); color: var(--bay-navy); border-color: var(--bay-sky); }
+  .away-mode .tab-btn:not(.active) { background: transparent; color: var(--bay-sky); border-color: var(--bay-sky); }
+  .away-mode .card-panel       { background: rgba(255,255,255,.06); border: 1.5px solid rgba(77,184,255,.3); }
+  .away-mode .select-control   { background: rgba(0,16,60,.7); color: var(--bay-white); border: 1.5px solid var(--bay-sky); }
+  .away-mode .select-control option { background: var(--bay-navy); color: var(--bay-white); }
+  .away-mode .win-rate-display { background: linear-gradient(135deg, #000e2e, #002060); border: 2px solid var(--bay-sky); color: var(--bay-white); }
+  .away-mode .win-rate-number  { color: var(--bay-sky); text-shadow: 0 0 20px rgba(77,184,255,.5); }
+  .away-mode .badge-label      { background: rgba(77,184,255,.12); color: var(--bay-sky); border: 1px solid rgba(77,184,255,.3); }
+  .away-mode .footer-text      { color: rgba(77,184,255,.5); }
+  .away-mode .status-chip      { background: rgba(77,184,255,.1); border: 1px solid rgba(77,184,255,.25); color: var(--bay-sky); }
 
-  /* ===== SHARED ===== */
-  .app-header {
-    padding: 16px 20px 12px;
-    text-align: center;
-  }
-  .app-title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    margin: 0;
-  }
-  .app-subtitle {
-    font-size: 0.72rem;
-    opacity: 0.75;
-    margin: 2px 0 0;
-  }
-
-  .tab-area {
+  /* ===== STEPPER DIFF COLOR (shared) ===== */
+  /* stepper wrapper */
+  .diff-stepper {
     display: flex;
-    gap: 0;
-    padding: 14px 16px 0;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
   }
-  .tab-btn {
-    flex: 1;
-    padding: 10px 4px;
-    font-size: 0.88rem;
-    font-weight: 700;
+  .stepper-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
     border: 2px solid;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
     cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.02em;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .stepper-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+  /* home minus/plus buttons */
+  .home-mode .stepper-btn.minus { background: var(--diff-red-bg); color: var(--diff-red); border-color: var(--diff-red); }
+  .home-mode .stepper-btn.plus  { background: var(--diff-green-bg); color: var(--diff-green); border-color: var(--diff-green); }
+  .home-mode .stepper-btn.minus:not(:disabled):hover { background: var(--diff-red); color: #fff; }
+  .home-mode .stepper-btn.plus:not(:disabled):hover  { background: var(--diff-green); color: #fff; }
+
+  /* away minus/plus buttons */
+  .away-mode .stepper-btn.minus { background: rgba(204,26,26,.18); color: #ff7070; border-color: #ff7070; }
+  .away-mode .stepper-btn.plus  { background: rgba(26,138,58,.18); color: #5de07a; border-color: #5de07a; }
+  .away-mode .stepper-btn.minus:not(:disabled):hover { background: rgba(204,26,26,.45); }
+  .away-mode .stepper-btn.plus:not(:disabled):hover  { background: rgba(26,138,58,.45); }
+
+  .diff-value-box {
+    flex: 1;
+    text-align: center;
+    border-radius: 12px;
+    padding: 10px 0;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    transition: background .2s, color .2s;
+    min-width: 90px;
+  }
+  /* home diff value */
+  .home-mode .diff-value-box.positive { background: var(--diff-green-bg); color: var(--diff-green); border: 2px solid var(--diff-green); }
+  .home-mode .diff-value-box.negative { background: var(--diff-red-bg);   color: var(--diff-red);   border: 2px solid var(--diff-red); }
+  .home-mode .diff-value-box.zero     { background: var(--bay-off-white); color: var(--bay-navy);   border: 2px solid #c5d8f0; }
+  /* away diff value */
+  .away-mode .diff-value-box.positive { background: rgba(26,138,58,.18); color: #5de07a; border: 2px solid #5de07a; }
+  .away-mode .diff-value-box.negative { background: rgba(204,26,26,.18); color: #ff7070; border: 2px solid #ff7070; }
+  .away-mode .diff-value-box.zero     { background: rgba(255,255,255,.08); color: var(--bay-white); border: 2px solid rgba(255,255,255,.2); }
+
+  /* ===== SHARED LAYOUT ===== */
+  .app-header  { padding: 16px 20px 12px; text-align: center; }
+  .app-title   { font-size: 1.1rem; font-weight: 800; letter-spacing: .03em; margin: 0; }
+  .app-subtitle{ font-size: .72rem; opacity: .75; margin: 2px 0 0; }
+
+  .tab-area { display: flex; padding: 14px 16px 0; }
+  .tab-btn {
+    flex: 1; padding: 10px 4px;
+    font-size: .88rem; font-weight: 700;
+    border: 2px solid; cursor: pointer;
+    transition: all .2s; letter-spacing: .02em;
   }
   .tab-btn:first-child { border-radius: 8px 0 0 8px; }
-  .tab-btn:last-child { border-radius: 0 8px 8px 0; }
+  .tab-btn:last-child  { border-radius: 0 8px 8px 0; }
 
-  .main-content {
-    padding: 14px 16px 80px;
-    max-width: 480px;
-    margin: 0 auto;
-  }
+  .main-content { padding: 14px 16px 80px; max-width: 480px; margin: 0 auto; }
 
-  .card-panel {
-    padding: 16px;
-    margin-bottom: 14px;
-  }
+  .card-panel { padding: 16px; margin-bottom: 14px; border-radius: 12px; }
 
   .section-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-    opacity: 0.7;
+    font-size: .72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 10px; opacity: .7;
   }
 
   .select-control {
-    width: 100%;
-    padding: 11px 14px;
-    font-size: 0.95rem;
-    border-radius: 8px;
-    appearance: none;
-    -webkit-appearance: none;
+    width: 100%; padding: 11px 14px;
+    font-size: .95rem; border-radius: 8px;
+    appearance: none; -webkit-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
+    background-repeat: no-repeat; background-position: right 14px center;
     cursor: pointer;
   }
-  .select-control:focus { outline: none; box-shadow: 0 0 0 3px rgba(77,184,255,0.3); }
-
-  .diff-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-  }
-  .diff-btn {
-    padding: 9px 2px;
-    font-size: 0.88rem;
-    font-weight: 700;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all 0.15s;
-    text-align: center;
-    border: 2px solid transparent;
-  }
-  .home-mode .diff-btn {
-    background: var(--bay-off-white);
-    color: var(--bay-navy);
-    border-color: #c5d8f0;
-  }
-  .home-mode .diff-btn.selected {
-    background: var(--bay-blue);
-    color: white;
-    border-color: var(--bay-blue);
-  }
-  .home-mode .diff-btn:hover:not(.selected) {
-    background: #d5e8ff;
-    border-color: var(--bay-light-blue);
-  }
-  .away-mode .diff-btn {
-    background: rgba(77,184,255,0.08);
-    color: var(--bay-sky);
-    border-color: rgba(77,184,255,0.2);
-  }
-  .away-mode .diff-btn.selected {
-    background: var(--bay-sky);
-    color: var(--bay-navy);
-    border-color: var(--bay-sky);
-  }
-  .away-mode .diff-btn:hover:not(.selected) {
-    background: rgba(77,184,255,0.2);
-    border-color: rgba(77,184,255,0.5);
-  }
-
-  .diff-btn.positive { }
-  .diff-btn.zero { font-size: 0.8rem; }
-  .diff-btn.negative { }
+  .select-control:focus { outline: none; box-shadow: 0 0 0 3px rgba(77,184,255,.3); }
 
   .win-rate-display {
-    border-radius: 16px;
-    padding: 28px 20px 24px;
-    text-align: center;
-    margin-top: 4px;
-    position: relative;
-    overflow: hidden;
+    border-radius: 16px; padding: 28px 20px 24px;
+    text-align: center; margin-top: 4px;
   }
-
   .win-rate-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.75;
-    margin-bottom: 6px;
+    font-size: .75rem; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase;
+    opacity: .75; margin-bottom: 6px;
   }
-
   .win-rate-number {
-    font-size: 5rem;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    margin-bottom: 2px;
+    font-size: 5rem; font-weight: 900;
+    line-height: 1; letter-spacing: -.02em; margin-bottom: 2px;
   }
+  .win-rate-percent { font-size: 2rem; font-weight: 700; vertical-align: super; }
+  .win-rate-sub { font-size: .78rem; opacity: .65; margin-top: 8px; }
 
-  .win-rate-percent {
-    font-size: 2rem;
-    font-weight: 700;
-    vertical-align: super;
-  }
-
-  .win-rate-sub {
-    font-size: 0.78rem;
-    opacity: 0.65;
-    margin-top: 8px;
+  .badge-label {
+    display: inline-block; padding: 3px 10px;
+    border-radius: 20px; font-size: .7rem;
+    font-weight: 700; letter-spacing: .06em; margin-bottom: 10px;
   }
 
   .cold-message {
     margin-top: 14px;
     background: linear-gradient(135deg, #7a0000, #cc1a1a);
-    color: white;
-    border-radius: 12px;
-    padding: 16px 18px;
-    text-align: center;
+    color: white; border-radius: 12px;
+    padding: 16px 18px; text-align: center;
     animation: pulse-alert 1.8s infinite;
   }
-  .cold-title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    margin-bottom: 4px;
-  }
-  .cold-sub {
-    font-size: 0.82rem;
-    opacity: 0.9;
-  }
+  .cold-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+  .cold-sub   { font-size: .82rem; opacity: .9; }
   @keyframes pulse-alert {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(204,26,26,0.4); }
-    50% { box-shadow: 0 0 0 10px rgba(204,26,26,0); }
+    0%,100% { box-shadow: 0 0 0 0 rgba(204,26,26,.4); }
+    50%     { box-shadow: 0 0 0 10px rgba(204,26,26,0); }
   }
 
-  .badge-label {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    margin-bottom: 10px;
-  }
-
-  .footer-area {
-    padding: 10px 16px 20px;
-    text-align: center;
-  }
-  .footer-text {
-    font-size: 0.65rem;
-    line-height: 1.6;
-  }
-
-  .status-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+  .status-row { display: flex; gap: 8px; margin: 14px 0 10px; }
   .status-chip {
-    flex: 1;
-    text-align: center;
-    padding: 6px 4px;
-    border-radius: 6px;
-    font-size: 0.72rem;
-    font-weight: 600;
+    flex: 1; text-align: center;
+    padding: 6px 4px; border-radius: 6px;
+    font-size: .72rem; font-weight: 600;
   }
-  .home-mode .status-chip {
-    background: var(--bay-off-white);
-    border: 1px solid #c5d8f0;
-    color: var(--bay-navy);
+  .status-chip .chip-val { display: block; font-size: .95rem; font-weight: 800; }
+
+  .footer-area { padding: 10px 16px 20px; text-align: center; }
+  .footer-text { font-size: .65rem; line-height: 1.6; }
+
+  .loading-overlay {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 60vh; font-size: 1rem; opacity: .6;
   }
-  .away-mode .status-chip {
-    background: rgba(77,184,255,0.1);
-    border: 1px solid rgba(77,184,255,0.2);
-    color: var(--bay-sky);
-  }
-  .status-chip .chip-val {
-    display: block;
-    font-size: 0.95rem;
-    font-weight: 800;
+  .error-msg {
+    margin: 20px 16px; padding: 16px; border-radius: 10px;
+    background: #fdeaea; color: #a81414; font-size: .85rem;
+    border: 1.5px solid #f5c0c0;
   }
 </style>
 </head>
 <body>
 <div id="app" :class="mode + '-mode'">
 
-  <!-- Header -->
-  <div class="app-header">
-    <div class="app-title">⚾ ベイスターズ 勝率チェッカー</div>
-    <div class="app-subtitle">2025シーズン イニング別確率モデル</div>
+  <!-- Loading -->
+  <div v-if="loading" class="loading-overlay">⚾ データ読み込み中…</div>
+  <div v-else-if="loadError" class="error-msg">
+    ⚠️ データの読み込みに失敗しました。<br>{{ loadError }}
   </div>
 
-  <!-- Tabs -->
-  <div class="tab-area">
-    <button class="tab-btn" :class="{active: mode==='home'}" @click="mode='home'">🏟 ホームゲーム</button>
-    <button class="tab-btn" :class="{active: mode==='away'}" @click="mode='away'">✈️ ビジターゲーム</button>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-
-    <!-- Timing Selector -->
-    <div class="card-panel">
-      <div class="section-label">現在のタイミング</div>
-      <select class="select-control" v-model="timing">
-        <option v-for="t in timingOptions" :key="t.value" :value="t.value">{{ t.label }}</option>
-      </select>
+  <template v-else>
+    <!-- Header -->
+    <div class="app-header">
+      <div class="app-title">⚾ ベイスターズ 勝率チェッカー</div>
+      <div class="app-subtitle">2025シーズン イニング別確率モデル</div>
     </div>
 
-    <!-- Score Diff Selector -->
-    <div class="card-panel">
-      <div class="section-label">得失点差（ベイスターズ視点）</div>
-      <div class="diff-grid">
-        <button
-          v-for="d in diffOptions"
-          :key="d"
-          class="diff-btn"
-          :class="{selected: scoreDiff===d, positive: d>0, negative: d<0, zero: d===0}"
-          @click="scoreDiff=d"
-        >{{ d > 0 ? '+'+d : d }}</button>
+    <!-- Tabs -->
+    <div class="tab-area">
+      <button class="tab-btn" :class="{active: mode==='home'}" @click="mode='home'">🏟 ホームゲーム</button>
+      <button class="tab-btn" :class="{active: mode==='away'}" @click="mode='away'">✈️ ビジターゲーム</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+      <!-- Timing Selector -->
+      <div class="card-panel">
+        <div class="section-label">現在のタイミング</div>
+        <select class="select-control" v-model="timing">
+          <option v-for="t in timingOptions" :key="t.value" :value="t.value">{{ t.label }}</option>
+        </select>
+      </div>
+
+      <!-- Score Diff Stepper -->
+      <div class="card-panel">
+        <div class="section-label">得失点差（ベイスターズ視点）</div>
+        <div class="diff-stepper">
+          <button class="stepper-btn minus" @click="decrementDiff" :disabled="scoreDiff <= -9" aria-label="マイナス">－</button>
+          <div class="diff-value-box" :class="diffClass">
+            <span>{{ diffDisplay }}</span>
+          </div>
+          <button class="stepper-btn plus" @click="incrementDiff" :disabled="scoreDiff >= 9" aria-label="プラス">＋</button>
+        </div>
+      </div>
+
+      <!-- Win Rate Display -->
+      <div class="win-rate-display">
+        <div class="win-rate-label">現在の勝率</div>
+        <div class="badge-label">{{ modeLabel }} / {{ timingLabel }} / {{ diffLabel }}</div>
+        <div>
+          <span class="win-rate-number">{{ winRateDisplay }}</span><span class="win-rate-percent">%</span>
+        </div>
+        <div class="win-rate-sub">確率ベース推定値（ゆうじの自由研究モデル）</div>
+      </div>
+
+      <!-- Cold Return Alert -->
+      <div class="cold-message" v-if="winRate !== null && winRate < 0.10">
+        <div class="cold-title">🔥 コールド帰宅を推奨！</div>
+        <div class="cold-sub">勝率 {{ winRateDisplay }}%… 今夜はもう帰ろう。<br>ベイスターズを信じる気持ちは胸に残して。</div>
+      </div>
+
+      <!-- Status Chips -->
+      <div class="status-row" v-if="winRate !== null">
+        <div class="status-chip">
+          <span class="chip-val">{{ winRatePct >= 50 ? '🟢' : winRatePct >= 20 ? '🟡' : '🔴' }}</span>
+          <span>{{ winRatePct >= 50 ? '優勢' : winRatePct >= 20 ? '劣勢' : '厳しい' }}</span>
+        </div>
+        <div class="status-chip">
+          <span class="chip-val">{{ winRateDisplay }}%</span>
+          <span>勝率</span>
+        </div>
+        <div class="status-chip">
+          <span class="chip-val">{{ remainingInnings }}</span>
+          <span>残りイニング</span>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+
+    <!-- Footer -->
+    <div class="footer-area">
+      <div class="footer-text">
+        本アプリの勝率は、ゆうじによる独自の確率計算（イニング別得点・失点分布の離散畳み込み）に基づくものです。<br>
+        セイバーメトリクス研究ではありません。<br>
+        横浜DeNAベイスターズ 2025シーズンデータ使用
       </div>
     </div>
 
-    <!-- Win Rate Display -->
-    <div class="win-rate-display">
-      <div class="win-rate-label">現在の勝率</div>
-      <div class="badge-label">{{ modeLabel }} / {{ timingLabel }} / {{ diffLabel }}</div>
-      <div>
-        <span class="win-rate-number">{{ winRateDisplay }}</span><span class="win-rate-percent">%</span>
-      </div>
-      <div class="win-rate-sub">
-        確率ベース推定値（ゆうじの自由研究モデル）
-      </div>
-    </div>
-
-    <!-- Cold Return Alert -->
-    <div class="cold-message" v-if="winRate !== null && winRate < 0.10">
-      <div class="cold-title">🔥 コールド帰宅を推奨！</div>
-      <div class="cold-sub">勝率 {{ winRateDisplay }}%… 今夜はもう帰ろう。<br>ベイスターズを信じる気持ちは胸に残して。</div>
-    </div>
-
-    <!-- Status Chips -->
-    <div class="status-row" style="margin-top:14px;" v-if="winRate !== null">
-      <div class="status-chip">
-        <span class="chip-val">{{ winRatePct >= 50 ? '🟢' : winRatePct >= 20 ? '🟡' : '🔴' }}</span>
-        <span>{{ winRatePct >= 50 ? '優勢' : winRatePct >= 20 ? '劣勢' : '厳しい' }}</span>
-      </div>
-      <div class="status-chip">
-        <span class="chip-val">{{ winRateDisplay }}%</span>
-        <span>勝率</span>
-      </div>
-      <div class="status-chip">
-        <span class="chip-val">{{ remainingInnings }}</span>
-        <span>残りイニング</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Footer -->
-  <div class="footer-area">
-    <div class="footer-text">
-      本アプリの勝率は、ゆうじによる独自の確率計算（イニング別得点・失点分布の離散畳み込み）に基づくものです。<br>
-      セイバーメトリクス研究ではありません。<br>
-      横浜DeNAベイスターズ 2025シーズンデータ使用
-    </div>
-  </div>
-
-</div>
+  </template>
+</div><!-- /#app -->
 
 <script>
-const WIN_RATES = {"home": {"-9": {"1": 0.007175, "2": 0.008276, "3": 0.005052, "4": 0.005861, "5": 0.003325, "6": 0.003882, "7": 0.001997, "8": 0.002348, "9": 0.001052, "10": 0.001248, "11": 0.000454, "12": 0.000544, "13": 0.000138, "14": 0.000168, "15": 1.9e-05, "16": 2.5e-05, "17": 0.0, "18": 0.0, "19": 0.0}, "-8": {"1": 0.013437, "2": 0.015434, "3": 0.009909, "4": 0.011448, "5": 0.006887, "6": 0.008006, "7": 0.004415, "8": 0.005168, "9": 0.00252, "10": 0.002973, "11": 0.0012, "12": 0.001428, "13": 0.000413, "14": 0.000496, "15": 6.4e-05, "16": 7.8e-05, "17": 0.0, "18": 0.0, "19": 0.0}, "-7": {"1": 0.024298, "2": 0.027781, "3": 0.018747, "4": 0.021561, "5": 0.013749, "6": 0.015916, "7": 0.009417, "8": 0.010982, "9": 0.005857, "10": 0.006889, "11": 0.003151, "12": 0.003745, "13": 0.001329, "14": 0.001601, "15": 0.000337, "16": 0.000415, "17": 0.0, "18": 0.0, "19": 0.0}, "-6": {"1": 0.042293, "2": 0.048106, "3": 0.034044, "4": 0.038951, "5": 0.026237, "6": 0.030213, "7": 0.019063, "8": 0.022108, "9": 0.012738, "10": 0.01489, "11": 0.007494, "12": 0.008839, "13": 0.003549, "14": 0.00423, "15": 0.001057, "16": 0.001275, "17": 0.0, "18": 0.0, "19": 0.0}, "-5": {"1": 0.070821, "2": 0.080104, "3": 0.059387, "4": 0.067574, "5": 0.048035, "6": 0.055019, "7": 0.036996, "8": 0.042688, "9": 0.026574, "10": 0.030918, "11": 0.017157, "12": 0.020153, "13": 0.009217, "14": 0.010947, "15": 0.003298, "16": 0.00397, "17": 0.0, "18": 0.0, "19": 0.0}, "-4": {"1": 0.113784, "2": 0.127887, "3": 0.099195, "4": 0.112168, "5": 0.084053, "6": 0.095693, "7": 0.068556, "8": 0.078655, "9": 0.053036, "10": 0.061401, "11": 0.038011, "12": 0.044499, "13": 0.024229, "14": 0.028792, "15": 0.01267, "16": 0.015413, "17": 0.004397, "18": 0.0056, "19": 0.0}, "-3": {"1": 0.174767, "2": 0.194997, "3": 0.1578, "4": 0.177112, "5": 0.139311, "6": 0.157388, "7": 0.119234, "8": 0.135683, "9": 0.097609, "10": 0.111961, "11": 0.074692, "12": 0.086417, "13": 0.051153, "14": 0.059723, "15": 0.02844, "16": 0.033493, "17": 0.009476, "18": 0.0112, "19": 0.0}, "-2": {"1": 0.256544, "2": 0.283968, "3": 0.239494, "4": 0.26669, "5": 0.220141, "6": 0.246815, "7": 0.198071, "8": 0.223813, "9": 0.172852, "10": 0.1971, "11": 0.144101, "12": 0.166101, "13": 0.111632, "14": 0.130391, "15": 0.075723, "16": 0.089966, "17": 0.037572, "18": 0.0457, "19": 0.0}, "-1": {"1": 0.358062, "2": 0.392628, "3": 0.343956, "4": 0.379306, "5": 0.327157, "6": 0.363118, "7": 0.306763, "8": 0.342996, "9": 0.281503, "10": 0.317399, "11": 0.24961, "12": 0.284129, "13": 0.208683, "14": 0.240114, "15": 0.155641, "16": 0.181267, "17": 0.086991, "18": 0.1027, "19": 0.0}, "0": {"1": 0.474787, "2": 0.51519, "3": 0.467436, "4": 0.509923, "5": 0.458264, "6": 0.503038, "7": 0.446255, "8": 0.493449, "9": 0.429624, "10": 0.479159, "11": 0.405155, "12": 0.456445, "13": 0.366938, "14": 0.418256, "15": 0.303907, "16": 0.351071, "17": 0.195051, "18": 0.2287, "19": 0.0}, "1": {"1": 0.597175, "2": 0.64043, "3": 0.599908, "4": 0.646478, "5": 0.604096, "6": 0.654942, "7": 0.610663, "8": 0.667265, "9": 0.621267, "10": 0.685998, "11": 0.638933, "12": 0.715751, "13": 0.669289, "14": 0.76502, "15": 0.722953, "16": 0.849713, "17": 0.820182, "18": 1.0, "19": 1.0}, "2": {"1": 0.708297, "2": 0.748987, "3": 0.717549, "4": 0.760866, "5": 0.729107, "6": 0.775546, "7": 0.743785, "8": 0.793959, "9": 0.762733, "10": 0.817374, "11": 0.787568, "12": 0.847484, "13": 0.82052, "14": 0.886429, "15": 0.864535, "16": 0.936618, "17": 0.923191, "18": 1.0, "19": 1.0}, "3": {"1": 0.800204, "2": 0.834764, "3": 0.812296, "4": 0.848229, "5": 0.826429, "6": 0.863764, "7": 0.843012, "8": 0.881685, "9": 0.862488, "10": 0.902244, "11": 0.885261, "12": 0.925484, "13": 0.91153, "14": 0.950939, "15": 0.940936, "16": 0.977039, "17": 0.971852, "18": 1.0, "19": 1.0}, "4": {"1": 0.870073, "2": 0.896952, "3": 0.881987, "4": 0.909076, "5": 0.89518, "6": 0.922254, "7": 0.909712, "8": 0.936412, "9": 0.925549, "10": 0.951319, "11": 0.942481, "12": 0.966475, "13": 0.959981, "14": 0.980934, "15": 0.976975, "16": 0.993036, "17": 0.991474, "18": 1.0, "19": 1.0}, "5": {"1": 0.919472, "2": 0.938848, "3": 0.92945, "4": 0.948285, "5": 0.939933, "6": 0.957949, "7": 0.950784, "8": 0.967619, "9": 0.961765, "10": 0.976961, "11": 0.9725, "12": 0.985498, "13": 0.982439, "14": 0.992614, "15": 0.990855, "16": 0.99762, "17": 0.996915, "18": 1.0, "19": 1.0}, "6": {"1": 0.952364, "2": 0.965448, "3": 0.959893, "4": 0.972129, "5": 0.967436, "6": 0.978615, "7": 0.974833, "8": 0.984717, "9": 0.981868, "10": 0.990199, "11": 0.988266, "12": 0.994783, "13": 0.993688, "14": 0.998157, "15": 0.997742, "16": 1.0, "17": 1.0, "18": 1.0, "19": 1.0}, "7": {"1": 0.97299, "2": 0.981307, "3": 0.97818, "4": 0.985635, "5": 0.983124, "6": 0.989599, "7": 0.987694, "8": 0.993077, "9": 0.991743, "10": 0.995943, "11": 0.995115, "12": 0.998082, "13": 0.997666, "14": 0.999427, "15": 0.999292, "16": 1.0, "17": 1.0, "18": 1.0, "19": 1.0}, "8": {"1": 0.985291, "2": 0.990301, "3": 0.988622, "4": 0.992917, "5": 0.991638, "6": 0.995177, "7": 0.994265, "8": 0.997025, "9": 0.996434, "10": 0.99842, "11": 0.998089, "12": 0.99935, "13": 0.999204, "14": 0.999845, "15": 0.999806, "16": 1.0, "17": 1.0, "18": 1.0, "19": 1.0}, "9": {"1": 0.992291, "2": 0.995164, "3": 0.994301, "4": 0.996652, "5": 0.99603, "6": 0.997863, "7": 0.997448, "8": 0.998785, "9": 0.998538, "10": 0.999422, "11": 0.999298, "12": 0.999799, "13": 0.999753, "14": 0.999966, "15": 0.999957, "16": 1.0, "17": 1.0, "18": 1.0, "19": 1.0}}, "away": {"-9": {"1": 0.007175, "2": 0.004353, "3": 0.005052, "4": 0.002847, "5": 0.003325, "6": 0.001698, "7": 0.001997, "8": 0.000887, "9": 0.001052, "10": 0.000378, "11": 0.000454, "12": 0.000113, "13": 0.000138, "14": 1.5e-05, "15": 1.9e-05, "16": 0.0, "17": 0.0, "18": 0.0, "19": 0.0}, "-8": {"1": 0.013437, "2": 0.008574, "3": 0.009909, "4": 0.005921, "5": 0.006887, "6": 0.003769, "7": 0.004415, "8": 0.002135, "9": 0.00252, "10": 0.001008, "11": 0.0012, "12": 0.000343, "13": 0.000413, "14": 5.3e-05, "15": 6.4e-05, "16": 0.0, "17": 0.0, "18": 0.0, "19": 0.0}, "-7": {"1": 0.024298, "2": 0.016291, "3": 0.018747, "4": 0.011871, "5": 0.013749, "6": 0.008072, "7": 0.009417, "8": 0.004978, "9": 0.005857, "10": 0.002651, "11": 0.003151, "12": 0.001102, "13": 0.001329, "14": 0.000273, "15": 0.000337, "16": 0.0, "17": 0.0, "18": 0.0, "19": 0.0}, "-6": {"1": 0.042293, "2": 0.029735, "3": 0.034044, "4": 0.02277, "5": 0.026237, "6": 0.016427, "7": 0.019063, "8": 0.01089, "9": 0.012738, "10": 0.00635, "11": 0.007494, "12": 0.002976, "13": 0.003549, "14": 0.000875, "15": 0.001057, "16": 0.0, "17": 0.0, "18": 0.0, "19": 0.0}, "-5": {"1": 0.070821, "2": 0.052152, "3": 0.059387, "4": 0.041908, "5": 0.048035, "6": 0.032042, "7": 0.036996, "8": 0.022827, "9": 0.026574, "10": 0.0146, "11": 0.017157, "12": 0.007758, "13": 0.009217, "14": 0.00274, "15": 0.003298, "16": 0.0, "17": 0.0, "18": 0.0, "19": 0.0}, "-4": {"1": 0.113784, "2": 0.087644, "3": 0.099195, "4": 0.073769, "5": 0.084053, "6": 0.059712, "7": 0.068556, "8": 0.045785, "9": 0.053036, "10": 0.032458, "11": 0.038011, "12": 0.020389, "13": 0.024229, "14": 0.01042, "15": 0.01267, "16": 0.003452, "17": 0.004397, "18": 0.0, "19": 0.0}, "-3": {"1": 0.174767, "2": 0.140435, "3": 0.1578, "4": 0.123177, "5": 0.139311, "6": 0.104669, "7": 0.119234, "8": 0.085007, "9": 0.097609, "10": 0.064484, "11": 0.074692, "12": 0.043749, "13": 0.051153, "14": 0.024094, "15": 0.02844, "16": 0.007975, "17": 0.009476, "18": 0.0, "19": 0.0}, "-2": {"1": 0.256544, "2": 0.21479, "3": 0.239494, "4": 0.196112, "5": 0.220141, "6": 0.175102, "7": 0.198071, "8": 0.151452, "9": 0.172852, "10": 0.124936, "11": 0.144101, "12": 0.095545, "13": 0.111632, "14": 0.063746, "15": 0.075723, "16": 0.03091, "17": 0.037572, "18": 0.0, "19": 0.0}, "-1": {"1": 0.358062, "2": 0.311372, "3": 0.343956, "4": 0.294274, "5": 0.327157, "6": 0.273925, "7": 0.306763, "8": 0.249288, "9": 0.281503, "10": 0.21896, "11": 0.24961, "12": 0.181094, "13": 0.208683, "14": 0.133419, "15": 0.155641, "16": 0.073537, "17": 0.086991, "18": 0.0, "19": 0.0}, "0": {"1": 0.474787, "2": 0.427598, "3": 0.467436, "4": 0.416629, "5": 0.458264, "6": 0.402797, "7": 0.446255, "8": 0.384523, "9": 0.429624, "10": 0.359057, "11": 0.405155, "12": 0.321477, "13": 0.366938, "14": 0.26278, "15": 0.303907, "16": 0.166193, "17": 0.195051, "18": 0.0, "19": 0.0}, "1": {"1": 0.597175, "2": 0.555268, "3": 0.599908, "4": 0.55581, "5": 0.604096, "6": 0.557587, "7": 0.610663, "8": 0.561598, "9": 0.621267, "10": 0.56972, "11": 0.638933, "12": 0.585511, "13": 0.669289, "14": 0.6158, "15": 0.722953, "16": 0.673774, "17": 0.820182, "18": 0.7851, "19": 1.0}, "2": {"1": 0.708297, "2": 0.674275, "3": 0.717549, "4": 0.68272, "5": 0.729107, "6": 0.693629, "7": 0.743785, "8": 0.707968, "9": 0.762733, "10": 0.727144, "11": 0.787568, "12": 0.753191, "13": 0.82052, "14": 0.789002, "15": 0.864535, "16": 0.838563, "17": 0.923191, "18": 0.907, "19": 1.0}, "3": {"1": 0.800204, "2": 0.774722, "3": 0.812296, "4": 0.787066, "5": 0.826429, "6": 0.80175, "7": 0.843012, "8": 0.819307, "9": 0.862488, "10": 0.840338, "11": 0.885261, "12": 0.865442, "13": 0.91153, "14": 0.895032, "15": 0.940936, "16": 0.928926, "17": 0.971852, "18": 0.9655, "19": 1.0}, "4": {"1": 0.870073, "2": 0.852268, "3": 0.881987, "4": 0.865, "5": 0.89518, "6": 0.879289, "7": 0.909712, "8": 0.895254, "9": 0.925549, "10": 0.912918, "11": 0.942481, "12": 0.93211, "13": 0.959981, "14": 0.95229, "15": 0.976975, "16": 0.972245, "17": 0.991474, "18": 0.9896, "19": 1.0}, "5": {"1": 0.919472, "2": 0.907747, "3": 0.92945, "4": 0.918681, "5": 0.939933, "6": 0.930289, "7": 0.950784, "8": 0.942438, "9": 0.961765, "10": 0.954876, "11": 0.9725, "12": 0.967185, "13": 0.982439, "14": 0.978736, "15": 0.990855, "16": 0.98867, "17": 0.996915, "18": 0.996, "19": 1.0}, "6": {"1": 0.952364, "2": 0.945076, "3": 0.959893, "4": 0.95348, "5": 0.967436, "6": 0.961979, "7": 0.974833, "8": 0.970401, "9": 0.981868, "10": 0.978502, "11": 0.988266, "12": 0.985959, "13": 0.993688, "14": 0.992367, "15": 0.997742, "16": 0.997236, "17": 1.0, "18": 1.0, "19": 1.0}, "7": {"1": 0.97299, "2": 0.968678, "3": 0.97818, "4": 0.974547, "5": 0.983124, "6": 0.980186, "7": 0.987694, "8": 0.985447, "9": 0.991743, "10": 0.990156, "11": 0.995115, "12": 0.994122, "13": 0.997666, "14": 0.99716, "15": 0.999292, "16": 0.999127, "17": 1.0, "18": 1.0, "19": 1.0}, "8": {"1": 0.985291, "2": 0.982855, "3": 0.988622, "4": 0.98666, "5": 0.991638, "6": 0.990134, "7": 0.994265, "8": 0.993185, "9": 0.996434, "10": 0.995728, "11": 0.998089, "12": 0.997688, "13": 0.999204, "14": 0.999026, "15": 0.999806, "16": 0.999758, "17": 1.0, "18": 1.0, "19": 1.0}, "9": {"1": 0.992291, "2": 0.990972, "3": 0.994301, "4": 0.993288, "5": 0.99603, "6": 0.995295, "7": 0.997448, "8": 0.996955, "9": 0.998538, "10": 0.998241, "11": 0.999298, "12": 0.999148, "13": 0.999753, "14": 0.999696, "15": 0.999957, "16": 0.999946, "17": 1.0, "18": 1.0, "19": 1.0}}};
-
 const { createApp } = Vue;
 
 createApp({
@@ -450,6 +313,10 @@ createApp({
       mode: 'home',
       timing: 1,
       scoreDiff: 0,
+      winRatesHome: null,
+      winRatesAway: null,
+      loading: true,
+      loadError: null,
       timingOptions: [
         { value: 1,  label: '試合開始' },
         { value: 2,  label: '1回表終了' },
@@ -471,16 +338,35 @@ createApp({
         { value: 18, label: '9回表終了' },
         { value: 19, label: '9回裏終了' },
       ],
-      diffOptions: [-9,-8,-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7,8,9]
     };
   },
+  async mounted() {
+    try {
+      const [resHome, resAway] = await Promise.all([
+        fetch('win_rates_home.json'),
+        fetch('win_rates_away.json'),
+      ]);
+      if (!resHome.ok) throw new Error(`win_rates_home.json: HTTP ${resHome.status}`);
+      if (!resAway.ok) throw new Error(`win_rates_away.json: HTTP ${resAway.status}`);
+      this.winRatesHome = await resHome.json();
+      this.winRatesAway = await resAway.json();
+    } catch (e) {
+      this.loadError = e.message;
+    } finally {
+      this.loading = false;
+    }
+  },
   computed: {
+    currentTable() {
+      return this.mode === 'home' ? this.winRatesHome : this.winRatesAway;
+    },
     winRate() {
-      const t = String(this.timing);
+      if (!this.currentTable) return null;
       const d = String(this.scoreDiff);
-      const table = WIN_RATES[this.mode];
-      if (!table || !table[d]) return null;
-      const val = table[d][t];
+      const t = String(this.timing);
+      const row = this.currentTable[d];
+      if (!row) return null;
+      const val = row[t];
       return (val !== undefined && val !== null) ? val : null;
     },
     winRatePct() {
@@ -491,9 +377,18 @@ createApp({
       if (this.winRatePct === null) return '--';
       return this.winRatePct.toFixed(1);
     },
-    modeLabel() {
-      return this.mode === 'home' ? '🏟 ホーム' : '✈️ ビジター';
+    diffClass() {
+      if (this.scoreDiff > 0) return 'positive';
+      if (this.scoreDiff < 0) return 'negative';
+      return 'zero';
     },
+    diffDisplay() {
+      const d = this.scoreDiff;
+      if (d > 0) return `+${d}`;
+      if (d < 0) return `${d}`;
+      return '±0';
+    },
+    modeLabel() { return this.mode === 'home' ? '🏟 ホーム' : '✈️ ビジター'; },
     timingLabel() {
       const opt = this.timingOptions.find(o => o.value === this.timing);
       return opt ? opt.label : '';
@@ -505,15 +400,16 @@ createApp({
       return '同点';
     },
     remainingInnings() {
-      // timing 1=試合開始(9回残り), 2=1表終了(8.5残り)...
-      const t = this.timing;
-      const total = 19;
-      const remaining = total - t;
+      const remaining = 19 - this.timing;
       if (remaining === 0) return '試合終了';
       const inn = Math.ceil(remaining / 2);
-      const half = remaining % 2 === 1 ? '半' : '';
-      return `残り${inn}${half}回`;
-    }
+      const half = remaining % 2 === 1 ? '½' : '';
+      return `${inn}${half}回`;
+    },
+  },
+  methods: {
+    incrementDiff() { if (this.scoreDiff < 9)  this.scoreDiff++; },
+    decrementDiff() { if (this.scoreDiff > -9) this.scoreDiff--; },
   }
 }).mount('#app');
 </script>
